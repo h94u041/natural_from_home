@@ -86,7 +86,7 @@ export const features = [
 // 這裡放的只是接收網址，不是密鑰，可以安全地放在前端。
 // 設定步驟見 SETUP.md「訂單設定」章節。
 // ===================================================================
-export const orderEndpoint = 'REPLACE_WITH_YOUR_GAS_WEB_APP_URL'
+export const orderEndpoint = 'https://script.google.com/macros/s/AKfycbw9RK0-UlNulxCvcOIZpawzAKCmYY8s3NqZkCPn1KNWEKSPrNLjfwcq45prfoMmzVkl4A/exec'
 
 // 把瀏覽器丟出的英文錯誤換成客人看得懂的說法
 export function friendlyError(err) {
