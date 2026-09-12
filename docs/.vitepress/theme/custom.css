@@ -793,6 +793,60 @@ img { max-width: 100%; display: block; }
   color: #55654f;
 }
 
+/* 按鈕 + QR Code 一組（手機按按鈕、電腦掃 QR） */
+.linepay-box {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 16px;
+  background: var(--cream);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+}
+
+.linepay-qr {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.linepay-actions {
+  flex: 1;
+  min-width: 0;
+}
+
+.linepay-actions .btn {
+  margin-top: 0;
+}
+
+.linepay-hint {
+  margin: 12px 0 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #55654f;
+}
+
+@media (max-width: 480px) {
+  .linepay-box {
+    flex-direction: column;
+  }
+  .linepay-qr {
+    width: 180px;
+    height: 180px;
+  }
+  .linepay-actions {
+    width: 100%;
+  }
+  .linepay-hint {
+    text-align: center;
+  }
+}
+
 .pay-report {
   display: flex;
   flex-direction: column;

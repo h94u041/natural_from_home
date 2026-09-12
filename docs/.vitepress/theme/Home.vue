@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { withBase } from 'vitepress'
 import AppHeader from './AppHeader.vue'
 import PaymentReport from './PaymentReport.vue'
+import LinePayBox from './LinePayBox.vue'
 import { contact, linePayUrl, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
 import { taiwanAddress } from './taiwanAddress.js'
 
@@ -183,8 +184,7 @@ async function submitOrder(e) {
           <div class="order-block">
             <h3>方式二：LINE Pay 付款</h3>
             <p>訂購後，我們會先與您確認金額，再請您用 LINE Pay 付款。<strong>付款備註請填寫您的訂單編號</strong>，方便我們核對。</p>
-            <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">💚 LINE Pay 付款</a>
-            <p class="pay-hint">用電腦看網頁的話，請用手機 LINE 掃描下方的 QR Code。</p>
+            <LinePayBox />
             <details class="pay-report-toggle">
               <summary>已經付款了？點這裡回報</summary>
               <PaymentReport />
@@ -266,8 +266,7 @@ async function submitOrder(e) {
                 <li>
                   <div>
                     確認後請用 LINE Pay 付款，<strong>付款備註請填「{{ orderNo }}」</strong>。
-                    <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">💚 LINE Pay 付款</a>
-                    <span class="pay-hint">用電腦看網頁的話，請用手機 LINE 掃描下方的 QR Code。</span>
+                    <LinePayBox />
                   </div>
                 </li>
                 <li>
@@ -289,7 +288,7 @@ async function submitOrder(e) {
           <div class="qr-card">
             <p class="qr-title">LINE Pay</p>
             <div class="qr-frame">
-              <img :src="withBase('/assets/qr-linepay.png')" alt="LINE Pay 付款 QR Code" class="qr-crop" loading="lazy" width="540" height="486">
+              <img :src="withBase('/assets/qr-linepay.png')" alt="LINE Pay 付款 QR Code" class="qr-crop" loading="lazy" width="600" height="600">
             </div>
             <p class="qr-caption">掃描 QR Code 付款</p>
             <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">手機請點這裡付款</a>
