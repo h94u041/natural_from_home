@@ -2,11 +2,13 @@
 import { ref, computed, watch } from 'vue'
 import { withBase } from 'vitepress'
 import AppHeader from './AppHeader.vue'
-import { contact, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
+import PaymentReport from './PaymentReport.vue'
+import { contact, linePayUrl, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
 import { taiwanAddress } from './taiwanAddress.js'
 
 const submitState = ref('idle') // idle | sending | success | error
 const errorMessage = ref('')
+const orderNo = ref('')
 
 const showSize = pricing.some(row => row.size)
 
@@ -48,6 +50,7 @@ async function submitOrder(e) {
     const result = await res.json()
     if (!result.ok) throw new Error(result.error || '訂單未能送出')
 
+    orderNo.value = String(result.orderNo || '')
     submitState.value = 'success'
     e.target.reset()
     city.value = ''
@@ -178,8 +181,14 @@ async function submitOrder(e) {
           </div>
 
           <div class="order-block">
-            <h3>方式二：LINE Pay 線上付款</h3>
-            <p>掃描 QR Code 即可使用 LINE Pay 完成付款。</p>
+            <h3>方式二：LINE Pay 付款</h3>
+            <p>訂購後，我們會先與您確認金額，再請您用 LINE Pay 付款。<strong>付款備註請填寫您的訂單編號</strong>，方便我們核對。</p>
+            <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">💚 LINE Pay 付款</a>
+            <p class="pay-hint">用電腦看網頁的話，請用手機 LINE 掃描下方的 QR Code。</p>
+            <details class="pay-report-toggle">
+              <summary>已經付款了？點這裡回報</summary>
+              <PaymentReport />
+            </details>
           </div>
 
           <div class="order-block">
@@ -246,9 +255,29 @@ async function submitOrder(e) {
                 {{ submitState === 'sending' ? '送出中…' : '送出訂購單' }}
               </button>
             </form>
-            <p class="form-success" v-if="submitState === 'success'" role="status" aria-live="polite">
-              ✅ 訂購單已送出！我們會盡快與您聯繫確認訂單，謝謝您的訂購。
-            </p>
+            <div class="order-success" v-if="submitState === 'success'" role="status" aria-live="polite">
+              <p class="form-success">
+                ✅ 訂購單已送出！您的訂單編號是
+                <strong class="order-no">{{ orderNo }}</strong>
+                <span class="order-no-hint">請記下這個號碼</span>
+              </p>
+              <ol class="pay-steps">
+                <li><div>我們會盡快用電話與您確認金額與出貨日期。</div></li>
+                <li>
+                  <div>
+                    確認後請用 LINE Pay 付款，<strong>付款備註請填「{{ orderNo }}」</strong>。
+                    <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">💚 LINE Pay 付款</a>
+                    <span class="pay-hint">用電腦看網頁的話，請用手機 LINE 掃描下方的 QR Code。</span>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    付款完成後，請在這裡回報，我們核對後就會安排出貨：
+                    <PaymentReport :order-no="orderNo" />
+                  </div>
+                </li>
+              </ol>
+            </div>
             <p class="form-error" v-if="submitState === 'error'" role="alert">
               ⚠️ 訂購單送出失敗（{{ errorMessage }}）。<br>
               請直接撥打訂購專線 <a :href="`tel:${contact.phone}`">{{ contact.phoneDisplay }}</a> 訂購，謝謝您！
@@ -263,7 +292,12 @@ async function submitOrder(e) {
               <img :src="withBase('/assets/qr-linepay.png')" alt="LINE Pay 付款 QR Code" class="qr-crop" loading="lazy" width="540" height="486">
             </div>
             <p class="qr-caption">掃描 QR Code 付款</p>
+            <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">手機請點這裡付款</a>
           </div>
+          <a v-if="contact.lineOfficialUrl" class="line-card" :href="contact.lineOfficialUrl" target="_blank" rel="noopener">
+            <span class="line-card-label">有問題想問？</span>
+            <span class="line-card-action">💬 加 LINE 官方帳號聊聊</span>
+          </a>
           <div class="phone-card">
             <p class="phone-label">訂購專線</p>
             <a :href="`tel:${contact.phone}`" class="phone-number">{{ contact.phoneDisplay }}</a>

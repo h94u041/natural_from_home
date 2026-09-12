@@ -284,6 +284,15 @@ img { max-width: 100%; display: block; }
   margin-top: 4px;
 }
 
+.btn-line {
+  background: #06C755;
+  color: #fff;
+}
+.btn-line:hover {
+  background: #05a848;
+  transform: translateY(-1px);
+}
+
 .hero-visual {
   display: flex;
   justify-content: center;
@@ -711,6 +720,124 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 
+/* ---------- 送單成功後的付款步驟 ---------- */
+
+.order-success {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.order-no {
+  display: inline-block;
+  font-size: 1.8rem;
+  color: var(--alert);
+  letter-spacing: 0.06em;
+  margin: 0 6px;
+}
+
+.order-no-hint {
+  display: block;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #55654f;
+  margin-top: 4px;
+}
+
+.pay-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pay-steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 14px;
+  align-items: start;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.pay-steps li > div {
+  min-width: 0;
+}
+
+.pay-steps li::before {
+  content: counter(step);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--green-deep);
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.1rem;
+  line-height: 36px;
+  text-align: center;
+  margin-top: 0.15em;
+}
+
+.pay-steps .btn {
+  margin-top: 12px;
+}
+
+.pay-hint {
+  display: block;
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #55654f;
+}
+
+.pay-report {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+  padding: 16px;
+  background: var(--cream);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+}
+
+.pay-report-toggle {
+  margin-top: 14px;
+}
+
+.pay-report-toggle summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--green-mid);
+  font-size: 1.05rem;
+  padding: 6px 0;
+}
+
+.line-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #06C755;
+  color: #fff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.line-card-label {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.line-card-action {
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
 /* ---------- FAQ ---------- */
 
 .faq {
@@ -810,6 +937,10 @@ img { max-width: 100%; display: block; }
   margin: 14px 0 0;
   font-size: 1.05rem;
   color: #cfe0c9;
+}
+
+.qr-card .btn {
+  margin-top: 14px;
 }
 
 .phone-card {

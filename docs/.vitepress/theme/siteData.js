@@ -4,8 +4,16 @@
 
 export const contact = {
   phone: '0911744835',
-  phoneDisplay: '0911-744-835'
+  phoneDisplay: '0911-744-835',
+
+  // LINE 官方帳號的加好友連結（在 manager.line.biz → 加好友工具 可以複製，長得像 https://lin.ee/xxxxx）
+  // 留空字串就不會顯示 LINE 按鈕
+  lineOfficialUrl: ''
 }
+
+// LINE Pay 收款碼裡面的付款連結（跟 assets/qr-linepay.png 是同一個）
+// 手機上按這個連結會直接開 LINE Pay 付款畫面，不用掃碼
+export const linePayUrl = 'https://qrcodepay.line.me/qr/payment/%252Fcs1kO9rwiZqawItDE8kw7psbNhFY0Vdh6xtZ7fWi7ZRwTUBVcmoEyDWDJ1R%252FVUU'
 
 // size：每粒實際大小。用 \n 分行（第一行直徑、第二行重量），留空字串就不會顯示這一欄。
 // 數字和單位之間用  （不斷行空格）連在一起，畫面上才不會把「cm」單獨擠到下一行。
