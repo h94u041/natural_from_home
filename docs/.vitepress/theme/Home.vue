@@ -1,20 +1,33 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { withBase } from 'vitepress'
 import AppHeader from './AppHeader.vue'
 import { contact, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
+import { taiwanAddress } from './taiwanAddress.js'
 
 const submitState = ref('idle') // idle | sending | success | error
 const errorMessage = ref('')
+
+const showSize = pricing.some(row => row.size)
+
+const cities = Object.keys(taiwanAddress)
+const city = ref('')
+const district = ref('')
+const districts = computed(() => taiwanAddress[city.value] || [])
+watch(city, () => { district.value = '' })
 
 async function submitOrder(e) {
   e.preventDefault()
 
   const fields = e.target.elements
+  const road = fields.road.value.trim()
+  const extra = fields.addressExtra.value.trim()
+  const address = `${city.value}${district.value}${road}${extra ? '（' + extra + '）' : ''}`
+
   const payload = {
     name: fields.name.value.trim(),
     phone: fields.phone.value.trim(),
-    address: fields.address.value.trim(),
+    address,
     spec: fields.spec.value,
     qty: fields.qty.value || '1',
     note: fields.note.value.trim(),
@@ -37,6 +50,8 @@ async function submitOrder(e) {
 
     submitState.value = 'success'
     e.target.reset()
+    city.value = ''
+    district.value = ''
   } catch (err) {
     // 連線失敗時瀏覽器丟出的是英文訊息，換成客人看得懂的說法
     errorMessage.value = err instanceof TypeError ? '網路連線失敗' : err.message
@@ -97,6 +112,7 @@ async function submitOrder(e) {
               <tr>
                 <th scope="col">規格</th>
                 <th scope="col">每盒粒數</th>
+                <th v-if="showSize" scope="col">每粒大小</th>
                 <th scope="col">每層禮盒價格</th>
                 <th scope="col">2層裝一箱<br>宅配價格</th>
               </tr>
@@ -105,6 +121,7 @@ async function submitOrder(e) {
               <tr v-for="row in pricing" :key="row.spec">
                 <th scope="row">{{ row.spec }}</th>
                 <td data-label="每盒粒數">{{ row.count }}</td>
+                <td v-if="showSize" data-label="每粒大小">{{ row.size }}</td>
                 <td data-label="每層禮盒價格">{{ row.boxPrice }}</td>
                 <td data-label="2層裝一箱宅配" class="price-highlight">{{ row.shipPrice }}</td>
               </tr>
@@ -172,10 +189,33 @@ async function submitOrder(e) {
                 <label for="phone">聯絡電話</label>
                 <input type="tel" id="phone" name="phone" placeholder="0912345678" required>
               </div>
-              <div class="form-row">
-                <label for="address">收件地址</label>
-                <input type="text" id="address" name="address" placeholder="台中市……">
-              </div>
+              <fieldset class="form-address">
+                <legend>收件地址</legend>
+                <div class="form-address-grid">
+                  <div class="form-row">
+                    <label for="city">縣市</label>
+                    <select id="city" name="city" v-model="city" required>
+                      <option value="" disabled>請選擇</option>
+                      <option v-for="c in cities" :key="c" :value="c">{{ c }}</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="district">鄉鎮市區</label>
+                    <select id="district" name="district" v-model="district" :disabled="!city" required>
+                      <option value="" disabled>{{ city ? '請選擇' : '請先選縣市' }}</option>
+                      <option v-for="d in districts" :key="d" :value="d">{{ d }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label for="road">路／街與門牌</label>
+                  <input type="text" id="road" name="road" placeholder="例：中正路 123 號" required>
+                </div>
+                <div class="form-row">
+                  <label for="addressExtra">其他地址補充<span class="form-optional">（選填）</span></label>
+                  <input type="text" id="addressExtra" name="addressExtra" placeholder="例：5 樓、公司名稱、管理室代收">
+                </div>
+              </fieldset>
               <div class="form-row">
                 <label for="spec">規格與數量</label>
                 <select id="spec" name="spec">

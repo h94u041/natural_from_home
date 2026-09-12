@@ -7,11 +7,12 @@ export const contact = {
   phoneDisplay: '0911-744-835'
 }
 
+// size：每粒實際大小，例如 '直徑約 9～10 cm'。留空字串就不會顯示這一欄。
 export const pricing = [
-  { spec: '28A', count: '大 6 粒', boxPrice: '$1,150', shipPrice: '$2,100' },
-  { spec: '32A', count: '5 粒', boxPrice: '$1,350', shipPrice: '$2,400' },
-  { spec: '38A', count: '4 粒', boxPrice: '$1,550', shipPrice: '$2,800' },
-  { spec: '34A／38A↑', count: '2 粒', boxPrice: '$550 ／ $850', shipPrice: '如要宅配 4盒／6盒' }
+  { spec: '28A', count: '大 6 粒', size: '', boxPrice: '$1,150', shipPrice: '$2,100' },
+  { spec: '32A', count: '5 粒', size: '', boxPrice: '$1,350', shipPrice: '$2,400' },
+  { spec: '38A', count: '4 粒', size: '', boxPrice: '$1,550', shipPrice: '$2,800' },
+  { spec: '34A／38A↑', count: '2 粒', size: '', boxPrice: '$550 ／ $850', shipPrice: '如要宅配 4盒／6盒' }
 ]
 
 export const pricingNote = '禮盒內容：共 6 顆／每層 6 粒'
