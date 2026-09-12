@@ -73,10 +73,11 @@ export const faqs = [
   }
 ]
 
+// icon 可選：leaf（葉子）、drop（水滴）、box（紙箱）
 export const features = [
-  { icon: '🌱', title: '在地嚴選', desc: '台灣在地果園，新鮮直送' },
-  { icon: '💧', title: '清甜多汁', desc: '口感細緻，清脆爽口' },
-  { icon: '📦', title: '安心包裝', desc: '妥善包裝，新鮮到家' }
+  { icon: 'leaf', title: '在地嚴選', desc: '台灣在地果園，新鮮直送' },
+  { icon: 'drop', title: '清甜多汁', desc: '口感細緻，清脆爽口' },
+  { icon: 'box', title: '安心包裝', desc: '妥善包裝，新鮮到家' }
 ]
 
 // ===================================================================

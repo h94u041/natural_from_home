@@ -39,8 +39,13 @@ export default defineConfig({
   },
 
   head: [
-    // Favicon
-    ['link', { rel: 'icon', href: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍐</text></svg>' }],
+    // Favicon（用海報上的品牌 logo）
+    ['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}assets/logo.png` }],
+
+    // 標題用襯線字體，較有手作／傳統果園的味道
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&display=swap' }],
 
     // 基本 SEO
     ['meta', { name: 'keywords', content: '果然自家,寶島甘露梨,甘露梨,台灣水果,水果禮盒,梨子宅配,自產自銷,新鮮水果,台中水果,水果禮盒訂購,水果宅配,梨子產地直送,Taiwan pear,fresh fruit gift box' }],

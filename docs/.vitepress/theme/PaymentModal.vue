@@ -35,9 +35,9 @@ async function copyAccount() {
 <template>
   <dialog ref="dialog" class="pay-modal" @close="emit('close')" aria-labelledby="pay-modal-title">
     <div class="pay-modal-inner">
-      <button type="button" class="pay-modal-close" @click="emit('close')" aria-label="關閉">✕</button>
+      <button type="button" class="pay-modal-close" @click="emit('close')" aria-label="關閉">×</button>
 
-      <h2 id="pay-modal-title" class="pay-modal-title">✅ 訂購單已送出</h2>
+      <h2 id="pay-modal-title" class="pay-modal-title">訂購單已送出</h2>
       <p class="pay-modal-orderno">
         您的訂單編號
         <strong class="order-no">{{ orderNo }}</strong>
@@ -60,7 +60,7 @@ async function copyAccount() {
             <p class="bank-line"><span>帳號</span><strong class="bank-account">{{ accountGrouped }}</strong></p>
             <p class="bank-line" v-if="bankTransfer.holder"><span>戶名</span><strong>{{ bankTransfer.holder }}</strong></p>
             <button type="button" class="btn btn-ghost btn-wide" @click="copyAccount">
-              {{ copied ? '✅ 已複製帳號' : '複製帳號' }}
+              {{ copied ? '已複製帳號' : '複製帳號' }}
             </button>
           </div>
         </section>

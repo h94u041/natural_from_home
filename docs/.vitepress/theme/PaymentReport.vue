@@ -67,9 +67,9 @@ async function report(e) {
     <button type="submit" class="btn btn-primary btn-wide" :disabled="state === 'sending'">
       {{ state === 'sending' ? '回報中…' : '我已完成付款' }}
     </button>
-    <p class="form-error" v-if="state === 'error'" role="alert">⚠️ {{ errorMessage }}</p>
+    <p class="form-error" v-if="state === 'error'" role="alert">{{ errorMessage }}</p>
   </form>
   <p class="form-success" v-else role="status" aria-live="polite">
-    ✅ 已收到您的付款回報！我們核對收款後會盡快安排出貨，謝謝您。
+    已收到您的付款回報，我們核對收款後會盡快安排出貨，謝謝您。
   </p>
 </template>

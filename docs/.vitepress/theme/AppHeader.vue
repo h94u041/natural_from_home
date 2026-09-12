@@ -10,13 +10,13 @@ defineProps({
 <template>
   <header class="site-header">
     <div class="wrap header-inner">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">🍐</span>
+      <a class="brand" :href="withBase('/')">
+        <img :src="withBase('/assets/logo.png')" alt="" class="brand-logo" width="150" height="122">
         <div class="brand-text">
           <p class="brand-name">果然自家</p>
           <p class="brand-en">FRESH &amp; NATURAL</p>
         </div>
-      </div>
+      </a>
 
       <a class="header-cta" :href="`tel:${contact.phone}`">
         <span class="cta-label">訂購專線</span>
@@ -32,16 +32,12 @@ defineProps({
         :href="withBase('/')"
         :class="{ active: current === 'home' }"
         :aria-current="current === 'home' ? 'page' : undefined"
-      >
-        <span class="tab-icon" aria-hidden="true">🏠</span>首頁訂購
-      </a>
+      >首頁訂購</a>
       <a
         :href="withBase('/Fresh&natural')"
         :class="{ active: current === 'intro' }"
         :aria-current="current === 'intro' ? 'page' : undefined"
-      >
-        <span class="tab-icon" aria-hidden="true">📋</span>簡介圖
-      </a>
+      >簡介圖</a>
     </div>
   </nav>
 </template>

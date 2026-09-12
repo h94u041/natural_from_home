@@ -13,6 +13,14 @@ const modalOpen = ref(false)
 
 const showSize = pricing.some(row => row.size)
 
+// 三大特色的線條圖示（跟海報上的手繪風一致，不用 emoji）
+const svgAttrs = 'viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"'
+const featureIcons = {
+  leaf: `<svg ${svgAttrs}><path d="M10 38c0-16 10-26 28-26 0 18-10 26-24 26"/><path d="M10 38c6-8 12-13 20-18"/></svg>`,
+  drop: `<svg ${svgAttrs}><path d="M24 6c6 9 13 16 13 24a13 13 0 0 1-26 0c0-8 7-15 13-24Z"/><path d="M17 30a7 7 0 0 0 5 6"/></svg>`,
+  box: `<svg ${svgAttrs}><path d="M6 16l18-8 18 8-18 8-18-8Z"/><path d="M6 16v18l18 8 18-8V16"/><path d="M24 24v18"/></svg>`
+}
+
 const cities = Object.keys(taiwanAddress)
 const city = ref('')
 const district = ref('')
@@ -66,9 +74,6 @@ async function submitOrder(e) {
     orderNo.value = String(result.orderNo || '')
     submitState.value = 'success'
     modalOpen.value = true
-    e.target.reset()
-    city.value = ''
-    district.value = ''
   } catch (err) {
     errorMessage.value = friendlyError(err)
     submitState.value = 'error'
@@ -106,7 +111,7 @@ async function submitOrder(e) {
       <div class="wrap">
         <ul class="feature-list">
           <li v-for="f in features" :key="f.title" class="feature-item">
-            <span class="feature-icon" aria-hidden="true">{{ f.icon }}</span>
+            <span class="feature-icon" aria-hidden="true" v-html="featureIcons[f.icon]"></span>
             <h2>{{ f.title }}</h2>
             <p>{{ f.desc }}</p>
           </li>
@@ -150,8 +155,8 @@ async function submitOrder(e) {
         </div>
 
         <figure class="box-figure">
-          <img :src="withBase('/assets/pear-box.jpg')" alt="寶島甘露梨禮盒實品照，木箱內裝六顆印有寶島甘露梨字樣的水果，分兩層排列" loading="lazy" width="302" height="344">
-          <figcaption>寶島甘露梨禮盒，每盒 6 顆，分層包裝妥善保護果實</figcaption>
+          <img :src="withBase('/assets/pear-box.jpg')" alt="寶島甘露梨禮盒實品照（28A 六粒裝），印有寶島甘露梨字樣的水果分層排列" loading="lazy" width="302" height="344">
+          <figcaption>寶島甘露梨禮盒實品（圖為 28A 六粒裝），分層包裝妥善保護果實</figcaption>
         </figure>
       </div>
     </section>
@@ -161,18 +166,18 @@ async function submitOrder(e) {
       <div class="wrap order-inner">
         <div class="order-info">
           <h2 class="section-title">訂購方式</h2>
-          <p class="order-lede">自產自銷．最安心的美味 ❤️ 感謝您的支持與推薦！</p>
+          <p class="order-lede">自產自銷．最安心的美味，感謝您的支持與推薦！</p>
 
           <div class="order-block">
             <h3>方式一：電話訂購</h3>
             <p>最快速的方式，直接撥打訂購專線，告知姓名、電話、地址、規格與數量即可。</p>
-            <a class="btn btn-primary btn-wide" :href="`tel:${contact.phone}`">📞 撥打 {{ contact.phoneDisplay }}</a>
+            <a class="btn btn-primary btn-wide" :href="`tel:${contact.phone}`">撥打 {{ contact.phoneDisplay }}</a>
           </div>
 
           <div class="order-block">
             <h3>方式二：線上訂購（LINE Pay 或銀行轉帳）</h3>
             <p class="order-form-note">填寫以下資訊送出後，會拿到訂單編號與付款方式（LINE Pay／銀行轉帳二擇一）。</p>
-            <form class="order-form" @submit="submitOrder" v-show="submitState !== 'success'">
+            <form class="order-form" @submit="submitOrder">
               <div class="form-row">
                 <label for="name">收件人姓名</label>
                 <input type="text" id="name" name="name" placeholder="王小明" required>
@@ -235,14 +240,14 @@ async function submitOrder(e) {
             </form>
             <div class="order-success" v-if="submitState === 'success'" role="status" aria-live="polite">
               <p class="form-success">
-                ✅ 訂購單已送出！您的訂單編號是
+                訂購單已送出，您的訂單編號是
                 <strong class="order-no">{{ orderNo }}</strong>
                 <span class="order-no-hint">請記下這個號碼，付款時備註填此編號或您的姓名</span>
               </p>
               <button type="button" class="btn btn-primary btn-wide" @click="modalOpen = true">查看付款方式／回報付款</button>
             </div>
             <p class="form-error" v-if="submitState === 'error'" role="alert">
-              ⚠️ 訂購單送出失敗（{{ errorMessage }}）。<br>
+              訂購單送出失敗（{{ errorMessage }}）。<br>
               請直接撥打訂購專線 <a :href="`tel:${contact.phone}`">{{ contact.phoneDisplay }}</a> 訂購，謝謝您！
             </p>
           </div>
@@ -251,7 +256,7 @@ async function submitOrder(e) {
         <div class="order-side">
           <a v-if="contact.lineOfficialUrl" class="line-card" :href="contact.lineOfficialUrl" target="_blank" rel="noopener">
             <span class="line-card-label">有問題想問？</span>
-            <span class="line-card-action">💬 加 LINE 官方帳號聊聊</span>
+            <span class="line-card-action">加 LINE 官方帳號聊聊</span>
           </a>
           <div class="phone-card">
             <p class="phone-label">訂購專線</p>
@@ -291,7 +296,7 @@ async function submitOrder(e) {
 
     <section class="closing">
       <div class="wrap">
-        <p>自產自銷．最安心的美味 ❤️ 感謝您的支持與推薦！</p>
+        <p>自產自銷．最安心的美味，感謝您的支持與推薦！</p>
         <p class="closing-sub">自產自銷．品質安心・自然熟成．香甜多汁</p>
       </div>
     </section>

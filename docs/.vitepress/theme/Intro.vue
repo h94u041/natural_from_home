@@ -51,7 +51,7 @@ function bulbStyle(n) {
         </div>
 
         <div class="intro-actions">
-          <a class="btn btn-primary btn-wide" :href="`tel:${contact.phone}`">📞 撥打 {{ contact.phoneDisplay }}</a>
+          <a class="btn btn-primary btn-wide" :href="`tel:${contact.phone}`">撥打 {{ contact.phoneDisplay }}</a>
           <a class="btn btn-ghost btn-wide" :href="withBase('/#order')">回首頁線上訂購</a>
         </div>
       </div>

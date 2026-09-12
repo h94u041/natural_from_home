@@ -9,7 +9,7 @@ import { linePayUrl } from './siteData.js'
       <img :src="withBase('/assets/qr-linepay.png')" alt="LINE Pay 付款 QR Code" class="qr-crop" loading="lazy" width="600" height="600">
     </div>
     <div class="linepay-actions">
-      <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">💚 LINE Pay 付款</a>
+      <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">LINE Pay 付款</a>
     </div>
   </div>
 </template>
