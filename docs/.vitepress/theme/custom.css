@@ -302,6 +302,13 @@ img { max-width: 100%; display: block; }
   margin-top: 4px;
 }
 
+.btn-sm {
+  min-height: 44px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
 .btn-line {
   background: linear-gradient(180deg, #22D46A 0%, #06C755 55%, #05B04B 100%);
   color: #fff;
@@ -430,7 +437,7 @@ img { max-width: 100%; display: block; }
   width: 100%;
   border-collapse: collapse;
   background: var(--grad-card);
-  min-width: 560px;
+  min-width: 680px;
 }
 
 .price-table th,
@@ -468,6 +475,11 @@ img { max-width: 100%; display: block; }
 .price-size {
   white-space: pre-line;
   line-height: 1.5;
+}
+
+.price-action {
+  width: 1%;
+  text-align: right;
 }
 
 .box-figure {
@@ -647,6 +659,15 @@ img { max-width: 100%; display: block; }
 
 .form-row select {
   text-overflow: ellipsis;
+}
+
+.form-row select.is-highlight {
+  animation: spec-flash 2s ease-out;
+}
+
+@keyframes spec-flash {
+  0%, 60% { box-shadow: 0 0 0 4px rgba(200, 150, 62, 0.55); border-color: var(--gold); }
+  100% { box-shadow: none; }
 }
 
 .form-row input.is-prefilled {
@@ -1314,6 +1335,21 @@ img { max-width: 100%; display: block; }
   .price-table td.price-size {
     font-size: 1.1rem;
     align-items: flex-start;
+  }
+
+  .price-table td.price-action {
+    display: block;
+    width: auto;
+    padding: 14px 0 6px;
+    border-bottom: none;
+  }
+  .price-table td.price-action::before {
+    content: none;
+  }
+  .price-table td.price-action .btn {
+    width: 100%;
+    min-height: 52px;
+    font-size: 1.15rem;
   }
 
   .price-table td::before {

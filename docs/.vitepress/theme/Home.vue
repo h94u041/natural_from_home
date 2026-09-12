@@ -19,6 +19,18 @@ const district = ref('')
 const districts = computed(() => taiwanAddress[city.value] || [])
 watch(city, () => { district.value = '' })
 
+const specValue = (row) => `${row.spec}（${row.count}）`
+const selectedSpec = ref(specValue(pricing[0]))
+const specHighlight = ref(false)
+
+function chooseSpec(row) {
+  selectedSpec.value = specValue(row)
+  submitState.value = 'idle'
+  document.getElementById('order')?.scrollIntoView({ behavior: 'smooth' })
+  specHighlight.value = true
+  setTimeout(() => { specHighlight.value = false }, 2000)
+}
+
 async function submitOrder(e) {
   e.preventDefault()
 
@@ -119,6 +131,7 @@ async function submitOrder(e) {
                 <th v-if="showSize" scope="col">每粒大小</th>
                 <th scope="col">每層禮盒價格</th>
                 <th scope="col">2層裝一箱<br>宅配價格</th>
+                <th scope="col"><span class="sr-only">訂購</span></th>
               </tr>
             </thead>
             <tbody>
@@ -128,6 +141,9 @@ async function submitOrder(e) {
                 <td v-if="showSize" data-label="每粒大小" class="price-size">{{ row.size }}</td>
                 <td data-label="每層禮盒價格">{{ row.boxPrice }}</td>
                 <td data-label="2層裝一箱宅配" class="price-highlight">{{ row.shipPrice }}</td>
+                <td class="price-action">
+                  <button type="button" class="btn btn-primary btn-sm" @click="chooseSpec(row)">訂購此規格</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -137,34 +153,6 @@ async function submitOrder(e) {
           <img :src="withBase('/assets/pear-box.jpg')" alt="寶島甘露梨禮盒實品照，木箱內裝六顆印有寶島甘露梨字樣的水果，分兩層排列" loading="lazy" width="302" height="344">
           <figcaption>寶島甘露梨禮盒，每盒 6 顆，分層包裝妥善保護果實</figcaption>
         </figure>
-      </div>
-    </section>
-
-    <!-- NOTES -->
-    <section class="notes">
-      <div class="wrap">
-        <h2 class="section-title section-title-alert">備註！</h2>
-        <ol class="notes-list">
-          <li v-for="(n, i) in notes" :key="i">
-            <span>
-              {{ typeof n === 'string' ? n : n.text }}
-              <span v-if="n.example" class="notes-example">例：{{ n.example }}</span>
-            </span>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="faq">
-      <div class="wrap">
-        <h2 class="section-title">常見問題</h2>
-        <div class="faq-list">
-          <details v-for="(f, i) in faqs" :key="i" class="faq-item">
-            <summary>{{ f.q }}</summary>
-            <p>{{ f.a }}</p>
-          </details>
-        </div>
       </div>
     </section>
 
@@ -222,8 +210,8 @@ async function submitOrder(e) {
               </fieldset>
               <div class="form-row">
                 <label for="spec">規格與數量</label>
-                <select id="spec" name="spec">
-                  <option v-for="row in pricing" :key="row.spec" :value="`${row.spec}（${row.count}）`">
+                <select id="spec" name="spec" v-model="selectedSpec" :class="{ 'is-highlight': specHighlight }">
+                  <option v-for="row in pricing" :key="row.spec" :value="specValue(row)">
                     {{ row.spec }}（{{ row.count }}）— {{ row.boxPrice }}／盒
                   </option>
                 </select>
@@ -269,6 +257,34 @@ async function submitOrder(e) {
             <p class="phone-label">訂購專線</p>
             <a :href="`tel:${contact.phone}`" class="phone-number">{{ contact.phoneDisplay }}</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="notes">
+      <div class="wrap">
+        <h2 class="section-title section-title-alert">備註！</h2>
+        <ol class="notes-list">
+          <li v-for="(n, i) in notes" :key="i">
+            <span>
+              {{ typeof n === 'string' ? n : n.text }}
+              <span v-if="n.example" class="notes-example">例：{{ n.example }}</span>
+            </span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+      <div class="wrap">
+        <h2 class="section-title">常見問題</h2>
+        <div class="faq-list">
+          <details v-for="(f, i) in faqs" :key="i" class="faq-item">
+            <summary>{{ f.q }}</summary>
+            <p>{{ f.a }}</p>
+          </details>
         </div>
       </div>
     </section>
