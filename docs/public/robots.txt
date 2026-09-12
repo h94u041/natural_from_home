@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://h94u041.github.io/natural_from_home/sitemap.xml

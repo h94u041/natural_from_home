@@ -1,0 +1,7 @@
+node_modules
+docs/.vitepress/dist
+docs/.vitepress/cache
+.DS_Store
+
+# 內部維護手冊，含訂單通知串接方式，不上傳
+SETUP.md
