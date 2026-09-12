@@ -86,7 +86,7 @@ export const features = [
 // 這裡放的只是接收網址，不是密鑰，可以安全地放在前端。
 // 設定步驟見 SETUP.md「訂單設定」章節。
 // ===================================================================
-export const orderEndpoint = 'https://script.google.com/macros/s/AKfycbybqY7TIyo9C4nviJOwqUhVFEQuGVnK3xKO1lWjZH_frFG0K6mU2weOcureIgK48xefxQ/exec'
+export const orderEndpoint = 'https://script.google.com/macros/s/AKfycbwDOfWP-KB20uvrpwA2WzZCZhSBggQ22ppFGDn2Gswq5WTWGbuI7SaGaZqp1FEAOauAUA/exec'
 
 // 把瀏覽器丟出的英文錯誤換成客人看得懂的說法
 export function friendlyError(err) {
