@@ -5,3 +5,6 @@ docs/.vitepress/cache
 
 # 內部維護手冊，含訂單通知串接方式，不上傳
 SETUP.md
+
+# 後台程式（Google Apps Script），不上傳
+google-apps-script/
