@@ -467,23 +467,46 @@ img { max-width: 100%; display: block; }
   background: var(--alert);
 }
 
+/* VitePress 內建樣式會把 ol 的編號拿掉，這裡用 counter 自己畫紅色圓圈編號 */
 .notes-list {
   margin: 0;
-  padding-left: 1.4em;
+  padding: 0;
+  list-style: none;
+  counter-reset: note;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .notes-list li {
+  counter-increment: note;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 14px;
+  align-items: start;
   color: #5a2b23;
   font-size: 1.15rem;
 }
 
+.notes-list li::before {
+  content: counter(note);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--alert);
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.1rem;
+  line-height: 36px;
+  text-align: center;
+  margin-top: 0.15em;
+}
+
 .notes-example {
-  display: inline-block;
-  margin-top: 6px;
+  display: block;
+  margin-top: 8px;
   background: var(--paper);
+  border: 1px solid rgba(178, 58, 46, 0.25);
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 1.05rem;

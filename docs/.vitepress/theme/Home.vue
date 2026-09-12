@@ -141,7 +141,12 @@ async function submitOrder(e) {
       <div class="wrap">
         <h2 class="section-title section-title-alert">備註！</h2>
         <ol class="notes-list">
-          <li v-for="(n, i) in notes" :key="i">{{ n }}</li>
+          <li v-for="(n, i) in notes" :key="i">
+            <span>
+              {{ typeof n === 'string' ? n : n.text }}
+              <span v-if="n.example" class="notes-example">例：{{ n.example }}</span>
+            </span>
+          </li>
         </ol>
       </div>
     </section>
