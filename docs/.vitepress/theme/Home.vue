@@ -121,7 +121,7 @@ async function submitOrder(e) {
               <tr v-for="row in pricing" :key="row.spec">
                 <th scope="row">{{ row.spec }}</th>
                 <td data-label="每盒粒數">{{ row.count }}</td>
-                <td v-if="showSize" data-label="每粒大小">{{ row.size }}</td>
+                <td v-if="showSize" data-label="每粒大小" class="price-size">{{ row.size }}</td>
                 <td data-label="每層禮盒價格">{{ row.boxPrice }}</td>
                 <td data-label="2層裝一箱宅配" class="price-highlight">{{ row.shipPrice }}</td>
               </tr>

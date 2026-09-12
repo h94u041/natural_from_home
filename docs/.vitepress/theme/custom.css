@@ -425,6 +425,11 @@ img { max-width: 100%; display: block; }
   font-size: 1.3rem;
 }
 
+.price-size {
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
 .box-figure {
   margin: 0;
   max-width: 340px;
@@ -1012,6 +1017,11 @@ img { max-width: 100%; display: block; }
 
   .price-table tbody tr td:last-child {
     border-bottom: none;
+  }
+
+  .price-table td.price-size {
+    font-size: 1.1rem;
+    align-items: flex-start;
   }
 
   .price-table td::before {
