@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { withBase } from 'vitepress'
 import AppHeader from './AppHeader.vue'
 import PaymentModal from './PaymentModal.vue'
-import { contact, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
+import { contact, pricing, pricingNote, notes, faqs, features, orderEndpoint, friendlyError } from './siteData.js'
 import { taiwanAddress } from './taiwanAddress.js'
 
 const submitState = ref('idle') // idle | sending | success | error
@@ -58,8 +58,7 @@ async function submitOrder(e) {
     city.value = ''
     district.value = ''
   } catch (err) {
-    // 連線失敗時瀏覽器丟出的是英文訊息，換成客人看得懂的說法
-    errorMessage.value = err instanceof TypeError ? '網路連線失敗' : err.message
+    errorMessage.value = friendlyError(err)
     submitState.value = 'error'
   }
 }

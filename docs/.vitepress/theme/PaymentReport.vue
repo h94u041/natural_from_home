@@ -1,6 +1,6 @@
 <script setup>
 import { ref, useId } from 'vue'
-import { orderEndpoint, bankTransfer } from './siteData.js'
+import { orderEndpoint, bankTransfer, friendlyError } from './siteData.js'
 
 defineProps({
   orderNo: { type: String, default: '' }
@@ -33,7 +33,7 @@ async function report(e) {
     if (!result.ok) throw new Error(result.error || '回報未能送出')
     state.value = 'success'
   } catch (err) {
-    errorMessage.value = err instanceof TypeError ? '網路連線失敗' : err.message
+    errorMessage.value = friendlyError(err)
     state.value = 'error'
   }
 }

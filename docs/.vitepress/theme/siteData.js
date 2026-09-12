@@ -87,3 +87,10 @@ export const features = [
 // 設定步驟見 SETUP.md「訂單設定」章節。
 // ===================================================================
 export const orderEndpoint = 'REPLACE_WITH_YOUR_GAS_WEB_APP_URL'
+
+// 把瀏覽器丟出的英文錯誤換成客人看得懂的說法
+export function friendlyError(err) {
+  if (err instanceof TypeError) return '網路連線失敗'
+  if (err instanceof SyntaxError) return '訂單系統尚未連接或設定有誤'
+  return err.message
+}
