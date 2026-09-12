@@ -17,11 +17,12 @@ export const linePayUrl = 'https://qrcodepay.line.me/qr/payment/%252Fcs1kO9rwiZq
 
 // 銀行轉帳資訊（送單後的付款視窗會顯示，讓客人二擇一）
 // account 留空字串就不會顯示轉帳選項
+// ⚠️ 目前是佔位資料，正式上線前記得換成真正的帳戶
 export const bankTransfer = {
-  bankName: '',   // 例：'中華郵政'、'台灣銀行'
-  bankCode: '',   // 例：'700'
-  account: '',    // 例：'0001234567890123'（純數字，畫面會自動每 4 碼分組顯示）
-  holder: ''      // 戶名，例：'林OO'（可留空）
+  bankName: '銀行名稱（待補）',   // 例：'中華郵政'、'台灣銀行'
+  bankCode: 'XXX',               // 例：'700'
+  account: 'XXXX-XXXX-XXXX-XXXX', // 例：'0001234567890123'（純數字，畫面會自動每 4 碼分組顯示）
+  holder: 'XXX'                  // 戶名，例：'林OO'（可留空）
 }
 
 // size：每粒實際大小。用 \n 分行（第一行直徑、第二行重量），留空字串就不會顯示這一欄。
