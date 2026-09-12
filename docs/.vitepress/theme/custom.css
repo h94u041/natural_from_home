@@ -649,6 +649,13 @@ img { max-width: 100%; display: block; }
   text-overflow: ellipsis;
 }
 
+.form-row input.is-prefilled {
+  background: #EEF5E9;
+  border-color: var(--green-soft);
+  font-weight: 700;
+  color: var(--green-deep);
+}
+
 .form-row select:disabled {
   opacity: 0.55;
   cursor: not-allowed;
@@ -910,48 +917,6 @@ img { max-width: 100%; display: block; }
   margin-top: 6px;
 }
 
-.pay-method {
-  margin: 0;
-  padding: 0;
-  border: none;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.pay-method legend {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--green-deep);
-  margin-bottom: 8px;
-}
-
-.pay-method-option {
-  flex: 1;
-  min-width: 140px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  background: var(--paper);
-  border: 2px solid var(--line);
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.pay-method-option input {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--green-mid);
-}
-
-.pay-method-option:has(input:checked) {
-  border-color: var(--green-mid);
-  background: #EEF5E9;
-}
-
 .pay-modal-done {
   margin-top: 4px;
 }
@@ -987,13 +952,6 @@ img { max-width: 100%; display: block; }
   margin-top: 0;
 }
 
-.linepay-hint {
-  margin: 12px 0 0;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #55654f;
-}
-
 @media (max-width: 480px) {
   .linepay-box {
     flex-direction: column;
@@ -1004,9 +962,6 @@ img { max-width: 100%; display: block; }
   }
   .linepay-actions {
     width: 100%;
-  }
-  .linepay-hint {
-    text-align: center;
   }
 }
 

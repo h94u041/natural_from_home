@@ -10,10 +10,6 @@ import { linePayUrl } from './siteData.js'
     </div>
     <div class="linepay-actions">
       <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">💚 LINE Pay 付款</a>
-      <p class="linepay-hint">
-        <strong>用手機看：</strong>直接按綠色按鈕<br>
-        <strong>用電腦看：</strong>打開手機 LINE 掃描 QR Code
-      </p>
     </div>
   </div>
 </template>

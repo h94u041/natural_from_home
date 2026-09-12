@@ -1,20 +1,18 @@
 <script setup>
 import { ref, useId } from 'vue'
-import { orderEndpoint, bankTransfer, friendlyError } from './siteData.js'
+import { orderEndpoint, friendlyError } from './siteData.js'
 
-defineProps({
+const props = defineProps({
   orderNo: { type: String, default: '' }
 })
 
 const uid = useId()
 const state = ref('idle') // idle | sending | success | error
 const errorMessage = ref('')
-const hasBank = Boolean(bankTransfer.account)
 
 async function report(e) {
   e.preventDefault()
   const fields = e.target.elements
-  const method = fields.payMethod ? fields.payMethod.value : 'LINE Pay'
   const last5 = fields.payInfo.value.trim()
   state.value = 'sending'
 
@@ -25,7 +23,7 @@ async function report(e) {
       body: JSON.stringify({
         action: 'paid',
         orderNo: fields.orderNo.value.trim(),
-        payInfo: method + (last5 ? '，末五碼 ' + last5 : ''),
+        payInfo: last5 ? '末五碼 ' + last5 : '',
         website: fields.website.value
       })
     })
@@ -43,22 +41,21 @@ async function report(e) {
   <form class="pay-report" @submit="report" v-if="state !== 'success'">
     <div class="form-row">
       <label :for="`orderNo-${uid}`">訂單編號</label>
-      <input type="text" :id="`orderNo-${uid}`" name="orderNo" inputmode="numeric" :value="orderNo" placeholder="例：1001" required>
+      <input
+        type="text"
+        :id="`orderNo-${uid}`"
+        name="orderNo"
+        inputmode="numeric"
+        :value="orderNo"
+        :readonly="Boolean(orderNo)"
+        :class="{ 'is-prefilled': orderNo }"
+        placeholder="例：1001"
+        required
+      >
     </div>
-    <fieldset class="pay-method" v-if="hasBank">
-      <legend>付款方式</legend>
-      <label class="pay-method-option">
-        <input type="radio" name="payMethod" value="LINE Pay" checked>
-        <span>LINE Pay</span>
-      </label>
-      <label class="pay-method-option">
-        <input type="radio" name="payMethod" value="銀行轉帳">
-        <span>銀行轉帳</span>
-      </label>
-    </fieldset>
     <div class="form-row">
       <label :for="`payInfo-${uid}`">
-        {{ hasBank ? '轉帳帳號末五碼／LINE Pay 交易序號末五碼' : 'LINE Pay 交易序號末五碼' }}
+        轉帳帳號末五碼／LINE Pay 交易序號末五碼
         <span class="form-optional">（選填，方便我們核對）</span>
       </label>
       <input type="text" :id="`payInfo-${uid}`" name="payInfo" inputmode="numeric" placeholder="例：12345">
