@@ -777,54 +777,183 @@ img { max-width: 100%; display: block; }
   margin-top: 4px;
 }
 
-.pay-steps {
-  margin: 0;
+/* ---------- 送單後的付款視窗 ---------- */
+
+.pay-modal {
+  border: none;
+  border-radius: 20px;
   padding: 0;
-  list-style: none;
-  counter-reset: step;
+  width: min(560px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  background: var(--grad-card);
+  color: var(--ink);
+  box-shadow: 0 30px 80px rgba(31, 42, 28, 0.35);
+}
+
+.pay-modal::backdrop {
+  background: rgba(31, 42, 28, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.pay-modal-inner {
+  position: relative;
+  padding: 28px 22px 22px;
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-.pay-steps li {
-  counter-increment: step;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 14px;
-  align-items: start;
-  font-size: 1.1rem;
-  color: var(--ink);
-}
-
-.pay-steps li > div {
-  min-width: 0;
-}
-
-.pay-steps li::before {
-  content: counter(step);
-  width: 36px;
-  height: 36px;
+.pay-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border: none;
   border-radius: 50%;
-  background: var(--grad-green);
-  box-shadow: 0 3px 8px rgba(47, 74, 46, 0.28);
-  color: #fff;
-  font-weight: 900;
+  background: rgba(47, 74, 46, 0.08);
+  color: var(--green-deep);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pay-modal-close:hover {
+  background: rgba(47, 74, 46, 0.16);
+}
+
+.pay-modal-title {
+  margin: 0;
+  padding-right: 48px;
+  font-size: 1.5rem;
+  color: var(--green-deep);
+}
+
+.pay-modal-orderno {
+  margin: 0;
   font-size: 1.1rem;
-  line-height: 36px;
-  text-align: center;
-  margin-top: 0.15em;
-}
-
-.pay-steps .btn {
-  margin-top: 12px;
-}
-
-.pay-hint {
-  display: block;
-  margin-top: 10px;
-  font-size: 1rem;
   color: #55654f;
+}
+
+.pay-modal-remind {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--grad-gold-soft);
+  border-left: 5px solid var(--gold);
+  border-radius: 10px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.pay-option h3 {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+  color: var(--green-deep);
+}
+
+.pay-or {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  color: #8a9a85;
+  position: relative;
+}
+.pay-or::before,
+.pay-or::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 28px);
+  height: 1px;
+  background: var(--line);
+}
+.pay-or::before { left: 0; }
+.pay-or::after { right: 0; }
+
+.bank-box {
+  margin-top: 14px;
+  padding: 16px;
+  background: var(--cream);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bank-line {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-size: 1.1rem;
+}
+
+.bank-line > span {
+  flex-shrink: 0;
+  width: 3em;
+  color: #55654f;
+  font-size: 1rem;
+}
+
+.bank-account {
+  flex-basis: 100%;
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--green-deep);
+  word-break: keep-all;
+  line-height: 1.5;
+}
+
+.bank-box .btn {
+  margin-top: 6px;
+}
+
+.pay-method {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pay-method legend {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--green-deep);
+  margin-bottom: 8px;
+}
+
+.pay-method-option {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pay-method-option input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--green-mid);
+}
+
+.pay-method-option:has(input:checked) {
+  border-color: var(--green-mid);
+  background: #EEF5E9;
+}
+
+.pay-modal-done {
+  margin-top: 4px;
 }
 
 /* 按鈕 + QR Code 一組（手機按按鈕、電腦掃 QR） */
@@ -890,18 +1019,6 @@ img { max-width: 100%; display: block; }
   background: var(--cream);
   border: 2px solid var(--line);
   border-radius: 12px;
-}
-
-.pay-report-toggle {
-  margin-top: 14px;
-}
-
-.pay-report-toggle summary {
-  cursor: pointer;
-  font-weight: 700;
-  color: var(--green-mid);
-  font-size: 1.05rem;
-  padding: 6px 0;
 }
 
 .line-card {
@@ -994,48 +1111,18 @@ img { max-width: 100%; display: block; }
   top: calc(var(--tabs-height) + 20px);
 }
 
-.qr-card, .phone-card {
-  background: var(--grad-green);
-  color: #fff;
-  border-radius: var(--radius);
-  padding: 24px;
-  text-align: center;
-  box-shadow: 0 10px 26px rgba(47, 74, 46, 0.24);
-}
-
-.qr-title {
-  margin: 0 0 14px;
-  font-weight: 700;
-  font-size: 1.3rem;
-}
-
-.qr-frame {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-}
-
 .qr-crop {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.qr-caption {
-  margin: 14px 0 0;
-  font-size: 1.05rem;
-  color: #cfe0c9;
-}
-
-.qr-card .btn {
-  margin-top: 14px;
-}
-
 .phone-card {
   background: var(--grad-gold);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
   box-shadow: 0 10px 26px rgba(169, 118, 44, 0.3);
 }
 

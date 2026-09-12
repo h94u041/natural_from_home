@@ -2,14 +2,14 @@
 import { ref, computed, watch } from 'vue'
 import { withBase } from 'vitepress'
 import AppHeader from './AppHeader.vue'
-import PaymentReport from './PaymentReport.vue'
-import LinePayBox from './LinePayBox.vue'
-import { contact, linePayUrl, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
+import PaymentModal from './PaymentModal.vue'
+import { contact, pricing, pricingNote, notes, faqs, features, orderEndpoint } from './siteData.js'
 import { taiwanAddress } from './taiwanAddress.js'
 
 const submitState = ref('idle') // idle | sending | success | error
 const errorMessage = ref('')
 const orderNo = ref('')
+const modalOpen = ref(false)
 
 const showSize = pricing.some(row => row.size)
 
@@ -53,6 +53,7 @@ async function submitOrder(e) {
 
     orderNo.value = String(result.orderNo || '')
     submitState.value = 'success'
+    modalOpen.value = true
     e.target.reset()
     city.value = ''
     district.value = ''
@@ -182,18 +183,8 @@ async function submitOrder(e) {
           </div>
 
           <div class="order-block">
-            <h3>方式二：LINE Pay 付款</h3>
-            <p>訂購後，我們會先與您確認金額，再請您用 LINE Pay 付款。<strong>付款備註請填寫您的訂單編號</strong>，方便我們核對。</p>
-            <LinePayBox />
-            <details class="pay-report-toggle">
-              <summary>已經付款了？點這裡回報</summary>
-              <PaymentReport />
-            </details>
-          </div>
-
-          <div class="order-block">
-            <h3>方式三：線上訂購單</h3>
-            <p class="order-form-note">填寫以下資訊並送出，會直接送到我們的訂單系統，送出後請保留畫面以便對帳。</p>
+            <h3>方式二：線上訂購（LINE Pay 或銀行轉帳）</h3>
+            <p class="order-form-note">填寫以下資訊送出後，會拿到訂單編號與付款方式（LINE Pay／銀行轉帳二擇一）。</p>
             <form class="order-form" @submit="submitOrder" v-show="submitState !== 'success'">
               <div class="form-row">
                 <label for="name">收件人姓名</label>
@@ -259,23 +250,9 @@ async function submitOrder(e) {
               <p class="form-success">
                 ✅ 訂購單已送出！您的訂單編號是
                 <strong class="order-no">{{ orderNo }}</strong>
-                <span class="order-no-hint">請記下這個號碼</span>
+                <span class="order-no-hint">請記下這個號碼，付款時備註填此編號或您的姓名</span>
               </p>
-              <ol class="pay-steps">
-                <li><div>我們會盡快用電話與您確認金額與出貨日期。</div></li>
-                <li>
-                  <div>
-                    確認後請用 LINE Pay 付款，<strong>付款備註請填「{{ orderNo }}」</strong>。
-                    <LinePayBox />
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    付款完成後，請在這裡回報，我們核對後就會安排出貨：
-                    <PaymentReport :order-no="orderNo" />
-                  </div>
-                </li>
-              </ol>
+              <button type="button" class="btn btn-primary btn-wide" @click="modalOpen = true">查看付款方式／回報付款</button>
             </div>
             <p class="form-error" v-if="submitState === 'error'" role="alert">
               ⚠️ 訂購單送出失敗（{{ errorMessage }}）。<br>
@@ -285,14 +262,6 @@ async function submitOrder(e) {
         </div>
 
         <div class="order-side">
-          <div class="qr-card">
-            <p class="qr-title">LINE Pay</p>
-            <div class="qr-frame">
-              <img :src="withBase('/assets/qr-linepay.png')" alt="LINE Pay 付款 QR Code" class="qr-crop" loading="lazy" width="600" height="600">
-            </div>
-            <p class="qr-caption">掃描 QR Code 付款</p>
-            <a class="btn btn-line btn-wide" :href="linePayUrl" target="_blank" rel="noopener">手機請點這裡付款</a>
-          </div>
           <a v-if="contact.lineOfficialUrl" class="line-card" :href="contact.lineOfficialUrl" target="_blank" rel="noopener">
             <span class="line-card-label">有問題想問？</span>
             <span class="line-card-action">💬 加 LINE 官方帳號聊聊</span>
@@ -312,6 +281,8 @@ async function submitOrder(e) {
       </div>
     </section>
   </main>
+
+  <PaymentModal :order-no="orderNo" :open="modalOpen" @close="modalOpen = false" />
 
   <footer class="site-footer">
     <div class="wrap">
