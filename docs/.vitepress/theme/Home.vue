@@ -29,8 +29,13 @@ const district = ref('')
 const districts = computed(() => taiwanAddress[city.value] || [])
 watch(city, () => { district.value = '' })
 
-const specValue = (row) => `${row.spec}（${row.count}）`
-const selectedSpec = ref(specValue(pricing[0]))
+// 訂購選項：每個規格分「單層禮盒」與「雙層一箱宅配」兩種
+const specOptions = pricing.flatMap(row => [
+  { value: `${row.spec}（${row.count}）單層禮盒`, label: `${row.spec}（${row.count}）單層禮盒 — ${row.boxPrice}` },
+  { value: `${row.spec}（${row.count}）雙層一箱宅配`, label: `${row.spec}（${row.count}）雙層一箱宅配 — ${row.shipPrice}` }
+])
+const specValue = (row) => `${row.spec}（${row.count}）單層禮盒`
+const selectedSpec = ref(specOptions[0].value)
 const specHighlight = ref(false)
 
 function chooseSpec(row) {
@@ -216,9 +221,7 @@ async function submitOrder(e) {
               <div class="form-row">
                 <label for="spec">規格與數量</label>
                 <select id="spec" name="spec" v-model="selectedSpec" :class="{ 'is-highlight': specHighlight }">
-                  <option v-for="row in pricing" :key="row.spec" :value="specValue(row)">
-                    {{ row.spec }}（{{ row.count }}）— {{ row.boxPrice }}／盒
-                  </option>
+                  <option v-for="o in specOptions" :key="o.value" :value="o.value">{{ o.label }}</option>
                 </select>
               </div>
               <div class="form-row">
