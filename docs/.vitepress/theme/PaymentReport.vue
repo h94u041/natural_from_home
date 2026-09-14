@@ -2,9 +2,10 @@
 import { ref, useId } from 'vue'
 import { orderEndpoint, friendlyError } from './siteData.js'
 
-const props = defineProps({
+defineProps({
   orderNo: { type: String, default: '' }
 })
+const emit = defineEmits(['reported'])
 
 const uid = useId()
 const state = ref('idle') // idle | sending | success | error
@@ -30,6 +31,7 @@ async function report(e) {
     const result = await res.json()
     if (!result.ok) throw new Error(result.error || '回報未能送出')
     state.value = 'success'
+    emit('reported')
   } catch (err) {
     errorMessage.value = friendlyError(err)
     state.value = 'error'

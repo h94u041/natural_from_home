@@ -3,12 +3,14 @@ import { ref, computed, watch } from 'vue'
 import { withBase } from 'vitepress'
 import AppHeader from './AppHeader.vue'
 import PaymentModal from './PaymentModal.vue'
+import Gallery from './Gallery.vue'
 import { contact, pricing, pricingNote, notes, faqs, features, orderEndpoint, friendlyError } from './siteData.js'
 import { taiwanAddress } from './taiwanAddress.js'
 
 const submitState = ref('idle') // idle | sending | success | error
 const errorMessage = ref('')
 const orderNo = ref('')
+const bank = ref(null)
 const modalOpen = ref(false)
 
 const showSize = pricing.some(row => row.size)
@@ -72,6 +74,7 @@ async function submitOrder(e) {
     if (!result.ok) throw new Error(result.error || '訂單未能送出')
 
     orderNo.value = String(result.orderNo || '')
+    bank.value = result.bank || null
     submitState.value = 'success'
     modalOpen.value = true
   } catch (err) {
@@ -154,10 +157,7 @@ async function submitOrder(e) {
           </table>
         </div>
 
-        <figure class="box-figure">
-          <img :src="withBase('/assets/pear-box.jpg')" alt="寶島甘露梨禮盒實品照（28A 六粒裝），印有寶島甘露梨字樣的水果分層排列" loading="lazy" width="302" height="344">
-          <figcaption>寶島甘露梨禮盒實品（圖為 28A 六粒裝），分層包裝妥善保護果實</figcaption>
-        </figure>
+        <Gallery />
       </div>
     </section>
 
@@ -302,7 +302,7 @@ async function submitOrder(e) {
     </section>
   </main>
 
-  <PaymentModal :order-no="orderNo" :open="modalOpen" @close="modalOpen = false" />
+  <PaymentModal :order-no="orderNo" :bank="bank" :open="modalOpen" @close="modalOpen = false" />
 
   <footer class="site-footer">
     <div class="wrap">

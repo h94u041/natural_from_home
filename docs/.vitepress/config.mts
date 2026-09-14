@@ -13,7 +13,7 @@ const BASE_PATH = '/natural_from_home/'
 const SITE_TITLE = '果然自家 Fresh & Natural'
 const SITE_TITLE_FULL = '果然自家｜台灣在地寶島甘露梨 自產自銷直送宅配'
 const SITE_DESCRIPTION = '果然自家｜台灣在地果園自產自銷新鮮水果，寶島甘露梨清甜多汁、安心包裝新鮮直送。提供28A、32A、38A、34A等規格禮盒與宅配，LINE Pay線上付款，電話訂購 0911-744-835。'
-const OG_IMAGE = `${SITE_URL}assets/pear-box.jpg`
+const OG_IMAGE = `${SITE_URL}assets/body_img/pear-box.jpg`
 
 export default defineConfig({
   lang: 'zh-Hant-TW',

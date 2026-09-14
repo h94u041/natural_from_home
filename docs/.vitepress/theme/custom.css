@@ -488,26 +488,90 @@ img { max-width: 100%; display: block; }
   text-align: right;
 }
 
-.box-figure {
-  margin: 0;
-  max-width: 340px;
+/* ---------- 產品照片輪播（內容來自 README.md「產品照片」） ---------- */
+
+.gallery {
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-.box-figure img {
-  border-radius: 3px;
+.gallery-frame {
+  position: relative;
+  overflow: hidden;
   border: 8px solid #fff;
+  border-radius: 3px;
   box-shadow: 0 4px 14px rgba(31, 42, 28, 0.18);
-  transform: rotate(1.5deg);
-  object-fit: cover;
-  object-position: 55% 45%;
-  aspect-ratio: 4/3;
-  width: 100%;
+  background: #fff;
+  touch-action: pan-y;
+  user-select: none;
 }
 
-.box-figure figcaption {
+.gallery-track {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+
+.gallery-slide {
+  flex: 0 0 100%;
+  margin: 0;
+}
+
+.gallery-slide img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--green-deep);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--green-deep);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 4px;
+}
+.gallery-arrow:hover { background: var(--green-deep); color: #fff; }
+.gallery-prev { left: 10px; }
+.gallery-next { right: 10px; }
+
+.gallery-caption {
+  margin: 14px 0 0;
+  text-align: center;
   font-size: 1.05rem;
   color: #55654f;
-  margin-top: 10px;
+  min-height: 1.85em;
+}
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.gallery-dot {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--green-deep);
+  background: transparent;
+  cursor: pointer;
+}
+.gallery-dot.active { background: var(--green-deep); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-track { transition: none; }
 }
 
 /* ---------- Notes ---------- */

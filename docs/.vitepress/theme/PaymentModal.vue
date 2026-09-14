@@ -1,19 +1,20 @@
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { bankTransfer } from './siteData.js'
 import LinePayBox from './LinePayBox.vue'
 import PaymentReport from './PaymentReport.vue'
 
 const props = defineProps({
   orderNo: { type: String, default: '' },
+  // 銀行轉帳資訊由訂單系統回傳（存在 Apps Script 的指令碼屬性，不放在網站程式碼）
+  bank: { type: Object, default: null },
   open: { type: Boolean, default: false }
 })
 const emit = defineEmits(['close'])
 
 const dialog = ref(null)
 const copied = ref(false)
-const hasBank = Boolean(bankTransfer.account)
-const accountGrouped = computed(() => bankTransfer.account.replace(/(\d{4})(?=\d)/g, '$1 '))
+const reported = ref(false)
+const accountGrouped = computed(() => (props.bank?.account || '').replace(/(\d{4})(?=\d)/g, '$1 '))
 
 watch(() => props.open, (isOpen) => {
   if (!dialog.value) return
@@ -21,9 +22,12 @@ watch(() => props.open, (isOpen) => {
   if (!isOpen && dialog.value.open) dialog.value.close()
 })
 
+// 換了新訂單就重置回報狀態
+watch(() => props.orderNo, () => { reported.value = false })
+
 async function copyAccount() {
   try {
-    await navigator.clipboard.writeText(bankTransfer.account)
+    await navigator.clipboard.writeText(props.bank.account)
     copied.value = true
     setTimeout(() => { copied.value = false }, 2000)
   } catch {
@@ -51,14 +55,14 @@ async function copyAccount() {
         <LinePayBox />
       </section>
 
-      <template v-if="hasBank">
+      <template v-if="bank">
         <p class="pay-or">或</p>
         <section class="pay-option">
           <h3>方式 B：銀行轉帳</h3>
           <div class="bank-box">
-            <p class="bank-line"><span>銀行</span><strong>{{ bankTransfer.bankName }}<template v-if="bankTransfer.bankCode">（{{ bankTransfer.bankCode }}）</template></strong></p>
+            <p class="bank-line"><span>銀行</span><strong>{{ bank.name }}<template v-if="bank.code">（{{ bank.code }}）</template></strong></p>
             <p class="bank-line"><span>帳號</span><strong class="bank-account">{{ accountGrouped }}</strong></p>
-            <p class="bank-line" v-if="bankTransfer.holder"><span>戶名</span><strong>{{ bankTransfer.holder }}</strong></p>
+            <p class="bank-line" v-if="bank.holder"><span>戶名</span><strong>{{ bank.holder }}</strong></p>
             <button type="button" class="btn btn-ghost btn-wide" @click="copyAccount">
               {{ copied ? '已複製帳號' : '複製帳號' }}
             </button>
@@ -68,10 +72,12 @@ async function copyAccount() {
 
       <section class="pay-option">
         <h3>付款完成後，請回報</h3>
-        <PaymentReport :order-no="orderNo" />
+        <PaymentReport :key="orderNo" :order-no="orderNo" @reported="reported = true" />
       </section>
 
-      <button type="button" class="btn btn-ghost btn-wide pay-modal-done" @click="emit('close')">稍後再付款，先關閉</button>
+      <button type="button" class="btn pay-modal-done" :class="reported ? 'btn-primary' : 'btn-ghost'" @click="emit('close')">
+        {{ reported ? '果然自家 感謝您的支持' : '稍後再付款，先關閉' }}
+      </button>
     </div>
   </dialog>
 </template>
